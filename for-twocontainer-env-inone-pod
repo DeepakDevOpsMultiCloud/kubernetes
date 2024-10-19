@@ -1,0 +1,31 @@
+apiVersion : v1
+kind : Pod
+metadata : 
+  name : hi-pod
+spec :
+  containers :
+     - name : test
+       image : alpine
+       args : 
+         - sleep
+         - 1d
+       env : 
+         - name : USERNAME 
+           value : "user1"
+         - name : PASSWORD 
+           value : "admin@123"
+     - name : test
+       image : alpine
+       args : 
+         - sleep
+         - 1d
+       env : 
+         - name : USERNAME 
+           value : "user2"
+         - name : PASSWORD 
+           value : "sample@123"
+
+# in this k8s first fetch the env from the first container as it is main container 
+# to fetch the data from second container the command is
+#  kubectl exec -it multi-db-pod -c db2 -- printenv
+#  multi-db-pod: The name of the pod you want to access (pod name)
