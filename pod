@@ -1,0 +1,19 @@
+apiVersion : v1
+kind : Pod
+metadata : 
+  name : hi-pod
+spec :
+  containers :
+     - name : test
+       image : alpine
+       args : 
+         - sleep
+         - 1d
+       env : 
+         - name : USERNAME 
+           value : "user"
+         - name : PASSWORD 
+           value : "admin@123"
+
+#kubectl exec podname -- printenv
+#kubectl exec -it podname -- /bin/sh
