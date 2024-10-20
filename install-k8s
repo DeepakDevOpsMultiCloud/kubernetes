@@ -1,0 +1,2 @@
+
+ # applying the Flannel configuration from the master node will set up Flannel networking for the entire cluster, including both the master and worker nodes. Make sure that the worker nodes are properly configured and can communicate with the master node and the Docker registry. 
