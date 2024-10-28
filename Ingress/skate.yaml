@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: skate
-        image: shaikkhajaibrahim/skateboard:1.0
+        image: deepakvakkala123/skateboard:1.0
         resources:
           requests:
             memory: "64Mi"
