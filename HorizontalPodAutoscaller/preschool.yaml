@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: preschool
-        image: shaikkhajaibrahim/preschool:1.1
+        image: deepakvakkala123/preshool:1.0
         resources:
           requests:
             memory: "64Mi"
