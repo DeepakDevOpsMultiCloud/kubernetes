@@ -1,0 +1,46 @@
+apiVersion : apps/v1
+kind : ReplicaSet
+metadata : 
+  name : users-app-rs
+  labels :
+    rs : users-app-rs
+spec : 
+  replicas : 1
+  selector : 
+    matchLabels :
+      app : users
+  template : 
+    metadata : 
+      labels :
+        app : users
+    spec : 
+      containers : 
+        - name : users-app-con
+          image : shaikkhajaibrahim/libuserssvc:1.0 
+          ports : 
+            - containerPort : 8000
+              protocol : TCP
+          envFrom : 
+            - configMapRef : 
+                name : users-app-config
+          resources : 
+            limits : 
+              cpu : 128m
+              memory : 256M 
+            requests : 
+              cpu : 128m
+              memory : 256M
+---
+apiVersion : v1
+kind : Service
+metadata : 
+  name : users-app-svc
+  labels :
+    svc : users-app-svc
+spec :
+  type : ClusterIP
+  selector : 
+    app : users
+  ports : 
+    - port : 8000
+      targetPort : 8000

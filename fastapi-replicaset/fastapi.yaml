@@ -1,0 +1,41 @@
+apiVersion : apps/v1 
+kind : ReplicaSet
+metadata : 
+  name : frontend-rs
+  labels :
+    app : frontend-rs
+spec :
+  replicas : 1
+  selector : 
+    matchLabels : 
+      app : frontend
+  template : 
+    metadata : 
+      name : fastapi-pod
+      labels : 
+        app : frontend
+    spec :
+      containers : 
+        - name : frontend-cont
+          image : shaikkhajaibrahim/libwebstore:1.0 
+          ports : 
+            - containerPort : 3000
+              protocol : TCP
+          envFrom : 
+            - configMapRef : 
+                name : fastapi-config 
+         
+---
+apiVersion : v1 
+kind : Service
+metadata : 
+  name : fastapi-svc
+  labels :
+    app : fastapi-svc
+spec :
+  type : LoadBalancer
+  ports : 
+    - port : 5000
+      targetPort : 3000
+  selector : 
+    app : frontend
