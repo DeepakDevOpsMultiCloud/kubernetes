@@ -1,0 +1,46 @@
+apiVersion : apps/v1
+kind : ReplicaSet
+metadata :
+  name : users-db-rs
+  labels :
+    rs : users-db-rs
+spec : 
+  replicas : 1
+  selector : 
+    matchLabels :
+      db : users
+  template : 
+    metadata : 
+      labels :
+        db : users
+    spec : 
+      containers : 
+        - name : users-db-con
+          image : postgres:15-alpine 
+          ports : 
+            - containerPort : 5432
+              protocol : TCP
+          envFrom : 
+            - configMapRef : 
+                name : users-db-config
+          resources : 
+            limits : 
+              cpu : 128m
+              memory : 256M 
+            requests : 
+              cpu : 128m
+              memory : 256M
+---
+apiVersion : v1
+kind : Service
+metadata : 
+  name : users-db-svc
+  labels :
+    svc : users-db-svc
+spec :
+  type : ClusterIP
+  selector : 
+    db : users
+  ports : 
+    - port : 5432
+      targetPort : 5432
