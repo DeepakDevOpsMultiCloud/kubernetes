@@ -18,7 +18,7 @@ spec:
       name: usersdb-pod
     spec:
       containers:
-        - name: books-db
+        - name: users-db
           image: postgres:15-alpine
           ports:
             - containerPort: 5432
