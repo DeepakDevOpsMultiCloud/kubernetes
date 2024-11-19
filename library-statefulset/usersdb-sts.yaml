@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: usersdb
+  labels:
+    db: usersdb-st
+spec:
+  minReadySeconds: 5
+  replicas: 2
+  selector:
+    matchLabels:
+      db: usersdb-st
+  serviceName : usersdb-svc
+  template:
+    metadata:
+      labels:
+        db: usersdb-st
+      name: usersdb-pod
+    spec:
+      containers:
+        - name: books-db
+          image: postgres:15-alpine
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "120m"
+              memory: "256Mi"
+            requests:
+              cpu: "120m"
+              memory: "256Mi"
+          envFrom:
+            - secretRef:
+                name: usersdb-secrets
+          volumeMounts:
+            - name: usersdb-data
+              mountPath: /var/lib/postgresql/data
+              subPath: data
+  volumeClaimTemplates:
+    - metadata:
+        name: usersdb-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion : v1 
+kind : Service
+metadata : 
+  name : usersdb-svc
+  labels : 
+    db: usersdb-st
+spec : 
+  type : ClusterIP
+  clusterIP : None
+  ports : 
+    - port : 5432
+      protocol : TCP
+  
