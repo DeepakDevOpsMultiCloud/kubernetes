@@ -32,7 +32,7 @@ spec:
               memory: "256Mi"
           envFrom:
             - secretRef:
-                name: books-secrets
+                name: booksdb-secrets
           volumeMounts:
             - name: booksdb-data
               mountPath: /var/lib/postgresql/data
