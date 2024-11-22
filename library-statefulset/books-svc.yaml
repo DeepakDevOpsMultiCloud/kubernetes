@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: 
+  name: books-svc
+  labels: 
+    app: books-svc
+spec:
+  minReadySeconds : 2
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: books-svc
+  serviceName: books-service
+  template: 
+    metadata : 
+      name: books-pod
+      labels:
+        app: books-svc
+    spec:
+      containers : 
+        - name: con-1
+          image: deepakvakkala123/libbookssvc:1.0
+          ports : 
+            - containerPort: 8000
+              protocol: TCP 
+          envFrom: 
+            - secretRef: 
+                name: books-secrets
+          resources: 
+            limits:              
+              cpu: "120m"
+              memory: "256Mi"
+            requests:
+              cpu: "120m"
+              memory: "256Mi"
+---            
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: books-service
+  labels: 
+    app: books-svc    
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports: 
+    - targetPort: 8000
+      port: 9000
+  selector:
+    app: books-svc        #deployment matchlabels,statefulsets(direct object)
+---
+      
