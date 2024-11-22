@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: 
+  name: web-svc
+  labels: 
+    app: web-svc
+spec:
+  minReadySeconds: 5
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: web-svc
+  serviceName: web-svc
+  template: 
+    metadata: 
+      name: web-svc
+      labels: 
+        app: web-svc
+    spec:
+      containers:
+        - name: web-con
+          image: deepakvakkala123/libwebstore:1.0
+          ports: 
+            - protocol: TCP
+              containerPort: 3000
+          resources:
+            limits:
+              cpu: "120m"
+              memory: "256Mi"
+            requests:
+              cpu: "120m"
+              memory: "256Mi"
+          env: 
+            - name: REACT_APP_BACKEND_API_URL       
+              value: http://users-svc:8000/api/v1
+            - name: REACT_APP_USERS_API_URL
+              value: http://uses-svc:8000/api/v1/users
+            - name: REACT_APP_BOOKS_API_URL
+              value: http://books-svc:8000/api/v1/books
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  labels: 
+    app: web-svc
+  name: web-svc
+spec:
+  type: NodePort
+  ports: 
+    - targetPort: 3000
+      port: 4000
+      protocol: TCP
+---
