@@ -53,10 +53,12 @@ metadata :
   name : booksdb-svc
   labels : 
     db: booksdb-st
-spec : 
+spec:
+  selector: 
+    db: booksdb-st
   type : ClusterIP
   clusterIP : None
   ports : 
     - port : 5432
       protocol : TCP
-  
+---
