@@ -9,7 +9,7 @@ spec:
   replicas: 2
   selector: 
     matchLabels:
-      app: users-svc
+      app: users-svc 
   serviceName: users-service
   template: 
     metadata : 
