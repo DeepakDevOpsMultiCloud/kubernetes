@@ -31,11 +31,11 @@ spec:
               memory: "256Mi"
           env: 
             - name: REACT_APP_BACKEND_API_URL       
-              value: http://users-svc:8000/api/v1
+              value: http://users-svc:9000/api/v1
             - name: REACT_APP_USERS_API_URL
-              value: http://users-svc:8000/api/v1/users
+              value: http://users-svc:9000/api/v1/users
             - name: REACT_APP_BOOKS_API_URL
-              value: http://books-svc:8000/api/v1/books
+              value: http://books-svc:9000/api/v1/books
 ---
 apiVersion: v1
 kind: Service
