@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: 
+  name: users-svc
+  labels: 
+    app: users-svc
+spec:
+  minReadySeconds : 2
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: users-svc
+  serviceName: users-service
+  template: 
+    metadata : 
+      name: users-pod
+      labels:
+        app: users-svc
+    spec:
+      containers : 
+        - name: con-1
+          image: deepakvakkala123/libuserssvc:1.0
+          ports : 
+            - containerPort: 8000
+              protocol: TCP 
+          envFrom: 
+            - secretRef: 
+                name: users-secrets
+          resources: 
+            limits:              
+              cpu: "120m"
+              memory: "256Mi"
+            requests:
+              cpu: "120m"
+              memory: "256Mi"
+---            
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: users-service
+  labels: 
+    app: users-svc    
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports: 
+    - targetPort: 8000
+      port: 9000
+  selector:
+    app: users-svc        #deployment matchlabels,statefulsets(direct object)
+---
+      
