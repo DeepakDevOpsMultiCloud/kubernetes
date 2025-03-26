@@ -1,1 +1,1 @@
-![](./Installation/Images/Kubernetes.png)
+![](./Installation/Images/Kubernetes.png)  
